@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "imagefrog"
+version = "0.1.0"
+description = ""
+authors = ["Guido Appenzeller <guido@appenzeller.net>"]
+readme = "README.md"
+packages = [{include = "imagefrog", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+click = "^8.1.7"
+tqdm = "^4.66.2"
+pillow = "^10.3.0"
+
+[tool.poetry.scripts]
+imagefrog = "imagefrog.__main__:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
