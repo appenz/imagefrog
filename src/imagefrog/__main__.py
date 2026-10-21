@@ -25,7 +25,7 @@ def cli(verbose):
     return
 
 @cli.command()
-@click.argument("srcdir", required=False, type=click.Path(exists=True))
+@click.argument("srcdir", required=True, type=click.Path(exists=True))
 @ratio_option
 @minimum_width_option
 @minimum_height_option
@@ -34,13 +34,13 @@ def find(srcdir, ratio, min_width, min_height):
     find_images(srcdir)
 
 @cli.command()
-@click.argument("srcdir", required=False, type=click.Path(exists=True))
-@click.argument("destdir", required=False, type=click.Path(exists=True))
+@click.argument("srcdir", required=True, type=click.Path(exists=True))
+@click.argument("destdir", required=True, type=click.Path(exists=True))
 @ratio_option
 @minimum_width_option
 @minimum_height_option
 def copy(srcdir, destdir, ratio, min_width, min_height):
     """Copy image files from source to destination"""
-    print(f'not implemented yet: copying images from {srcdir} to {destdir}')
+    copy_images(srcdir,destdir)
 
     

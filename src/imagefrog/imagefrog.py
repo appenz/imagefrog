@@ -6,8 +6,12 @@
 #
 
 import os
+import shutil
 import click
+from tqdm import tqdm
+
 from PIL import Image
+Image.MAX_IMAGE_PIXELS = 1000000000
 
 def check_image_properties(image_file):
     """Check if the image fulfills the properties set in the options"""
@@ -61,14 +65,39 @@ def find_image_files(srcdir):
         for file in files:
             if file.lower().endswith(image_extensions):
                 image_files.append(os.path.join(root, file))
-    
+
     return image_files
 
 def find_images(srcdir):
     """Find images in a directory"""
 
+    # Find list of candidate images
     images = find_image_files(srcdir)
-    for image in images:
-        if check_image_properties(image):
-            print(image)
+    found_images = []
+
+    with tqdm(total=len(images), leave=False) as pbar:
+        for image in images:
+            if check_image_properties(image):
+                found_images.append(image)
+            pbar.update(1)
+
+    for image in found_images:
+        print(image)
+
+    return
+
+def copy_images(srcdir, dstdir):
+    """Copy images in a directory"""
+
+    images = find_image_files(srcdir)
+    img_count = 0
+    with tqdm(total=len(images), leave=False) as pbar:
+        for image in images:
+            if check_image_properties(image):
+                print(f'Copying {image} to {dstdir}')
+                # Copy image to destination directory
+                shutil.copy(image, dstdir)
+                img_count += 1
+            pbar.update(1)
+    print(f'Copied {img_count} images.')
 
